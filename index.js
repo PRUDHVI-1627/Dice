@@ -3,37 +3,49 @@ const diceImage = document.getElementById("diceImage");
 const resultText = document.getElementById("resultText");
 const historyList = document.getElementById("historyList");
 
+const diceEmoji = ["", "⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+
 let history = [];
+let isRolling = false;
 
 function rollDice() {
+    if (isRolling) return;
+
+    isRolling = true;
+    button.disabled = true;
+    resultText.textContent = "";
 
     let count = 0;
+
+    // add rolling animation class
+    diceImage.classList.remove("landing");
+    diceImage.classList.add("rolling");
 
     function roll() {
         let random = Math.floor(Math.random() * 6) + 1;
         diceImage.src = `images/dice${random}.svg`;
-
-        diceImage.style.transform = `
-            rotate(${Math.random() * 60 - 30}deg)
-            translateY(${Math.random() * -10}px)
-        `;
 
         count++;
 
         if (count < 8) {
             setTimeout(roll, 60 + count * 25);
         } else {
-            diceImage.style.transform = "rotate(0deg) translateY(0)";
+            // stop rolling, trigger landing animation
+            diceImage.classList.remove("rolling");
+            diceImage.classList.add("landing");
+            setTimeout(() => diceImage.classList.remove("landing"), 350);
 
-            resultText.textContent = random === 6 
-                ? "you got 6 🎉" 
+            resultText.textContent = random === 6
+                ? "you got 6 🎉"
                 : "you got " + random;
 
             updateHistory(random);
+
+            isRolling = false;
+            button.disabled = false;
         }
     }
 
-    resultText.textContent = "";
     roll();
 }
 
@@ -46,9 +58,10 @@ function updateHistory(value) {
 
     historyList.innerHTML = "";
 
-    history.forEach(num => {
+    history.forEach((num, index) => {
         let li = document.createElement("li");
-        li.textContent = num;
+        li.textContent = `${diceEmoji[num]} ${num}`;
+        if (index === 0) li.classList.add("new");
         historyList.appendChild(li);
     });
 }
@@ -56,9 +69,10 @@ function updateHistory(value) {
 // Button click
 button.onclick = rollDice;
 
-// Keyboard support (PRO feature)
+// Keyboard support — fixed double trigger when button is focused
 document.addEventListener("keydown", (e) => {
-    if (e.code === "Space") {
+    if (e.code === "Space" && document.activeElement !== button) {
+        e.preventDefault();
         rollDice();
     }
 });
