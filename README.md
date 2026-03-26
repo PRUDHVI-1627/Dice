@@ -68,7 +68,7 @@ Dice/
 
 ## 📸 Preview
 
-![Dice Roll App Preview](preview.png)
+![Dice Roll App Preview](images/preview.png)
 
 ---
 
