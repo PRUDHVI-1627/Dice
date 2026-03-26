@@ -11,9 +11,10 @@ Click the button (or press **Space**) to roll the dice and get a random number f
 - 🖼️ Dice face images that change on every roll
 - 🖱️ Button click interaction
 - ⌨️ Keyboard support — press **Space** to roll
-- 🎞️ Smooth roll animation
+- 🎞️ Smooth roll & landing animation
+- 🚫 Button disabled while rolling (no spam clicks)
+- ⚀ Dice emoji in roll history
 - 📜 Roll history — tracks your last 5 rolls
-- 💡 Beginner-friendly project
 
 ---
 
@@ -35,7 +36,8 @@ Dice/
 │   │── dice3.svg
 │   │── dice4.svg
 │   │── dice5.svg
-│   └── dice6.svg
+│   │── dice6.svg
+│   └── preview.png
 │── index.html
 │── index.js
 └── style.css
